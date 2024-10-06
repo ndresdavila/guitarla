@@ -1,14 +1,21 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Guitar from "./components/Guitar"
 import Header from "./components/Header"
 
 function App() {
 
     // Hooks: se ponen al inicio, nunca dentro de condicionales
-    // State: [state, función que modifica al state] = useState(valor inicial)
+    // UseState: [state, función que modifica al state] = useState(valor inicial)
     const [auth, setAuth] = useState(true)
     const [total, setTotal] = useState(0)
     const [cart, setCart] = useState([])
+
+    //useEffect: ejecutar componte cuando  esta listo (API o localstorage)
+    // tiene callback (funcion que se ejecuta cuando componente esta listo)
+    // tiene array de dependnecias: se ejecuta cuando los elementos del array estan lito
+    useEffect(() => {
+      console.log('Componente listo')
+    }, [])
 
     return (
     <>
