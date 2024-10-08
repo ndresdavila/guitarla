@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Guitar from "./components/Guitar"
 import Header from "./components/Header"
 import { db } from "./data/db"
@@ -9,6 +8,7 @@ function App() {
     // Hooks: se ponen al inicio, nunca dentro de condicionales
 
     // - useState: [state, función que modifica al state] = useState(valor inicial)
+    // el state es ASÍNCRONO: otras funciones se mandan a llamar aún cuando no se ha modificado el state
 
     // - useEffect: ejecutar componte cuando está listo (API o localstorage), tiene:
         // callback: función (arrow) que se ejecuta cuando una dependencia cambia su state
@@ -16,13 +16,26 @@ function App() {
         // si array de dependencia está vacío: se ejecuta 1 sola vez cuando el componente está listo
 	
     // Props: compartir información entre componentes (padre->hijo): <Componente prop={valor} />
+    
+    // revisa si cart existe en localStorage, si existe: lo guardo como JSON, sino existe: []
+    const initialCart = () => {
+        const localStorageCart = localStorage.getItem('cart')
+        return localStorageCart ? JSON.parse(localStorageCart) : []
+    }
 
 	// inicio data como un componente vacío
-	const [data, setData] = useState(db) // normalmente se inicializa el state con vacío/false/etc...
-    const [cart, setCart] = useState([]) // state para el carrito de compras
+	const [data] = useState(db) // normalmente se inicializa el state con vacío/false/etc...
+    const [cart, setCart] = useState(initialCart) // state para el carrito de compras
 
     const MAX_ITEMS = 5
     const MIN_ITEMS = 1
+
+    
+
+    // aquí sirve usar useEffect porque espero a que el state 'cart' cambie para luego guardarlo (correctamente) en el localStorage
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cart)) // toma el state cart y lo guardo en el localStorage
+    }, [cart])
 
     // función para agrega al carrito
     function addToCart(item) {
