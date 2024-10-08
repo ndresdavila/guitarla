@@ -1,3 +1,6 @@
+# To open the web application please use the following link:
+https://shimmering-klepon-490a55.netlify.app/
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
